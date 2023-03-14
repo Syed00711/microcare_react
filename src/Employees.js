@@ -1,14 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
-import Message from './Message'
 import {useState} from 'react'
 import axios from 'axios'
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 function Employees() {
-   
+   const navigate =useNavigate()
   const [employees,setEmployees]=useState([])
-  const [count,setCount] =useState(0)
-  const [name,setName]=useState(null)
 
   useEffect(()=>{
    axios.get('http://localhost:8080/reactemployees',{headers:{
@@ -22,7 +19,32 @@ function Employees() {
    )
 
     
-    })
+    },[])
+
+    const deleteemployee=(event)=>{
+        event.preventDefault();
+        let url='http://localhost:8080/reactdeleteemployee/'.concat(event.currentTarget.getAttribute("value"));
+        console.log(url)
+        axios.get(url,{headers:{
+            'Authorization':'Basic bWljcm9jYXJlOjEyM2FBYmM='}}).then(resp1 =>{
+                axios.get('http://localhost:8080/reactemployees',{headers:{
+'Authorization':'Basic bWljcm9jYXJlOjEyM2FBYmM='
+   }}).then(
+     resp =>
+
+     {
+      console.log(resp.data) 
+      setEmployees(resp.data)}
+   )}
+
+            )
+    }
+
+    const updateemployee=(employee) =>{
+        navigate('/updateemployee',{state:{employee}})
+
+    }
+
 
 
   return (
@@ -42,7 +64,8 @@ function Employees() {
       <th scope="col">Last Name</th>
       <th scope="col">Email</th>
       <th scope="col">Phone</th>
-
+      <th scope="col">Delete</th>
+      <th scope="col">Edit</th>
     </tr>
   </thead>
   <tbody>
@@ -55,6 +78,8 @@ function Employees() {
       <td>{employee.last_name}</td>
       <td>{employee.email}</td>
       <td>{employee.phone}</td>
+      <td><a href="#" value={employee.email} onClick={(e)=>deleteemployee(e)}>delete</a></td>
+      <td><a href="##" onClick={() => updateemployee(employee)}>edit</a></td>
     </tr>
    )
     )}

@@ -7,7 +7,7 @@ import Message from './Message';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-
+import UpdateEmployee from './UpdateEmployee'
 import {BrowserRouter ,Routes,Route}  from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,6 +18,7 @@ root.render(
       <Route path='/' element={<App/>} ></Route>
 <Route path='/employees' element={<Employees />} ></Route>
 <Route path='/message' element={<Message />} ></Route>
+<Route path="/updateemployee" element={<UpdateEmployee />}/>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
